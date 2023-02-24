@@ -22,7 +22,7 @@ public class WtfGpt {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.openai.com/v1/completions"))
                 .setHeader("Content-Type", "application/json")
-                .setHeader("Authorization", "Bearer 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")
+                .setHeader("Authorization", "Bearer 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")
                 .POST(HttpRequest.BodyPublishers.ofString(input))
                 .build();
 
@@ -31,7 +31,7 @@ public class WtfGpt {
 
         if (response.statusCode() == 200) {
             ChatGptResponse chatGptResponse = objectMapper.readValue(response.body(), ChatGptResponse.class);
-            String answer = chatGptResponse.choices()[1].text();
+            String answer = chatGptResponse.choices()[0].text();
             if (!answer.isEmpty()){
                 System.out.println(answer.replace("\n","").trim());
             }
