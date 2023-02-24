@@ -1,5 +1,7 @@
 package famu.edu;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -14,22 +16,22 @@ public class WtfGpt {
         String searchString = scanner.nextLine();
 
         ObjectMapper objectMapper = new ObjectMapper();
-        new ChatGptRequest("text-davinci-001", searchString,1, 100);
+        ChatGptRequest chatGptRequest = new ChatGptRequest("text-davinci-001", searchString, 1, 100);
         String input = objectMapper.writeValueAsString(chatGptRequest);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.openai.com/v1/completions"))
                 .setHeader("Content-Type", "application/json")
-                .setHeader("Authorization", "Bearer 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")
+                .setHeader("Authorization", "Bearer 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")
                 .POST(HttpRequest.BodyPublishers.ofString(input))
                 .build();
 
         HttpClient client = HttpClient.newHttpClient();
         var response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        if (response.statusCode() = 200) {
+        if (response.statusCode() == 200) {
             ChatGptResponse chatGptResponse = objectMapper.readValue(response.body(), ChatGptResponse.class);
-            String answer = chatGptResponse.choices()[0].text() + "\n" + chatGptResponse.choices()[1].text();
+            String answer = chatGptResponse.choices()[1].text();
             if (!answer.isEmpty()){
                 System.out.println(answer.replace("\n","").trim());
             }
